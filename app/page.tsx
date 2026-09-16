@@ -1,102 +1,187 @@
 import Link from "next/link";
-
-const highlights = [
-  {
-    title: "Ship in the open",
-    body: "We build and maintain open-source projects together — transparent process, welcoming PRs.",
-  },
-  {
-    title: "Learn by doing",
-    body: "Mentorship, workshops, and real code. Newcomers and veterans both belong here.",
-  },
-  {
-    title: "Community first",
-    body: "A club for people who care about free software, collaboration, and lasting impact.",
-  },
-];
+import { Suspense } from "react";
+import ProjectDirectory from "@/components/ProjectDirectory";
+import { events } from "@/lib/events";
+import { people } from "@/lib/people";
+import { projects } from "@/lib/projects";
 
 export default function Home() {
+  const upcoming = events.filter((e) => e.status === "upcoming").slice(0, 3);
+  const recent = [...projects]
+    .sort((a, b) => b.updated.localeCompare(a.updated))
+    .slice(0, 3);
+
   return (
-    <div className="grid-bg">
-      {/* Hero */}
-      <section className="mx-auto max-w-6xl px-4 pb-20 pt-16 sm:px-6 sm:pt-24">
-        <div className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card/60 px-3 py-1 text-xs text-muted">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-          Open Source Club · osclub.org
+    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
+      {/* Compact hub intro — not a marketing hero */}
+      <section className="flex flex-col gap-3 border-b border-card-border pb-5 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <div className="flex items-center gap-2 text-xs text-muted">
+            <span className="rounded-sm border border-card-border bg-card px-1.5 py-0.5 font-mono">
+              org
+            </span>
+            <span>Open Source Club</span>
+            <span className="text-muted-2">·</span>
+            <span>{projects.length} projects</span>
+          </div>
+          <h1 className="mt-1.5 text-xl font-semibold tracking-tight sm:text-2xl">
+            Explore OSClub
+          </h1>
+          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted">
+            Community org for building open-source software, mentoring
+            newcomers, and shipping useful tools. Browse projects below or{" "}
+            <Link href="/join" className="text-accent hover:underline">
+              join
+            </Link>
+            .
+          </p>
         </div>
-
-        <h1 className="mt-6 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-          Build the commons.{" "}
-          <span className="bg-gradient-to-r from-accent to-accent-2 bg-clip-text text-transparent">
-            Ship together.
-          </span>
-        </h1>
-
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-          OSClub is a community of builders, maintainers, and learners who create
-          open-source software, share knowledge, and grow the ecosystem — one
-          contribution at a time.
-        </p>
-
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Link
-            href="/join"
-            className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-background transition hover:brightness-110"
-          >
-            Get involved
-          </Link>
+        <div className="flex shrink-0 gap-2">
           <Link
             href="/projects"
-            className="inline-flex items-center justify-center rounded-full border border-card-border bg-card/50 px-6 py-3 text-sm font-medium text-foreground transition hover:border-accent/40 hover:bg-card"
+            className="inline-flex h-8 items-center rounded-md border border-card-border bg-card px-3 text-sm font-medium text-foreground hover:bg-card-hover"
           >
-            Explore projects
+            Browse projects
           </Link>
-          <a
-            href="https://osclub.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium text-muted transition hover:text-foreground"
-          >
-            Visit osclub.org →
-          </a>
-        </div>
-      </section>
-
-      {/* Highlights */}
-      <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
-        <div className="grid gap-4 sm:grid-cols-3">
-          {highlights.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-2xl border border-card-border bg-card/70 p-6 transition hover:border-accent/30"
-            >
-              <h2 className="text-base font-semibold text-accent">{item.title}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{item.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA band */}
-      <section className="border-y border-card-border bg-card/30">
-        <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-4 py-14 sm:flex-row sm:items-center sm:px-6">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight">
-              Ready to contribute?
-            </h2>
-            <p className="mt-2 max-w-xl text-muted">
-              Whether you write code, docs, design, or just want to hang out —
-              there&apos;s a place for you in OSClub.
-            </p>
-          </div>
           <Link
             href="/join"
-            className="shrink-0 rounded-full bg-gradient-to-r from-accent to-accent-2 px-6 py-3 text-sm font-semibold text-background"
+            className="inline-flex h-8 items-center rounded-md bg-accent px-3 text-sm font-semibold text-[#0d1117] hover:bg-accent-hover"
           >
-            Join the club
+            Join OSClub
           </Link>
         </div>
       </section>
+
+      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_260px]">
+        <section>
+          <div className="mb-3 flex items-baseline justify-between gap-2">
+            <h2 className="text-sm font-semibold tracking-tight">
+              Projects{" "}
+              <span className="font-normal text-muted">
+                / recently updated
+              </span>
+            </h2>
+            <Link
+              href="/projects"
+              className="text-xs text-accent hover:underline"
+            >
+              View all
+            </Link>
+          </div>
+          <Suspense
+            fallback={
+              <p className="text-sm text-muted">Loading projects…</p>
+            }
+          >
+            <ProjectDirectory compact />
+          </Suspense>
+        </section>
+
+        <aside className="space-y-4">
+          <div className="overflow-hidden rounded-md border border-card-border">
+            <div className="border-b border-card-border bg-card px-3 py-2">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-muted">
+                Upcoming
+              </h2>
+            </div>
+            <ul className="divide-y divide-card-border">
+              {upcoming.map((ev) => (
+                <li key={ev.id} className="px-3 py-2.5">
+                  <Link
+                    href="/events"
+                    className="text-sm font-medium text-accent hover:underline"
+                  >
+                    {ev.title}
+                  </Link>
+                  <p className="mt-0.5 text-xs text-muted">
+                    {ev.when} · {ev.type}
+                  </p>
+                </li>
+              ))}
+            </ul>
+            <div className="border-t border-card-border px-3 py-2">
+              <Link
+                href="/events"
+                className="text-xs text-muted hover:text-accent"
+              >
+                All events →
+              </Link>
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-md border border-card-border">
+            <div className="border-b border-card-border bg-card px-3 py-2">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-muted">
+                People
+              </h2>
+            </div>
+            <ul className="divide-y divide-card-border">
+              {people.slice(0, 4).map((p) => (
+                <li key={p.handle} className="flex items-center gap-2.5 px-3 py-2">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-card-border bg-background font-mono text-[9px] text-muted">
+                    {p.name.slice(0, 2).toUpperCase()}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium leading-tight">
+                      {p.name}
+                    </p>
+                    <p className="truncate text-xs text-muted">{p.role}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="border-t border-card-border px-3 py-2">
+              <Link
+                href="/people"
+                className="text-xs text-muted hover:text-accent"
+              >
+                Directory →
+              </Link>
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-md border border-card-border">
+            <div className="border-b border-card-border bg-card px-3 py-2">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-muted">
+                Activity
+              </h2>
+            </div>
+            <ul className="divide-y divide-card-border">
+              {recent.map((p) => (
+                <li key={p.slug} className="px-3 py-2">
+                  <p className="text-xs text-muted">
+                    Updated{" "}
+                    <Link
+                      href={`/projects/${p.slug}`}
+                      className="font-medium text-accent hover:underline"
+                    >
+                      {p.name}
+                    </Link>
+                  </p>
+                  <p className="mt-0.5 text-[11px] text-muted-2">{p.updated}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-md border border-card-border bg-card p-3">
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-muted">
+              Get involved
+            </h2>
+            <ol className="mt-2 list-decimal space-y-1 pl-4 text-xs text-muted">
+              <li>Join the GitHub org / chat</li>
+              <li>Pick a good-first-issue project</li>
+              <li>Open a PR or propose an idea</li>
+            </ol>
+            <Link
+              href="/join"
+              className="mt-2 inline-block text-xs text-accent hover:underline"
+            >
+              Full join guide →
+            </Link>
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }

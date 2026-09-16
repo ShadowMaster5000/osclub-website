@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s · OSClub",
   },
   description:
-    "OSClub is an open-source community building tools, learning together, and shipping in the open. Visit osclub.org.",
+    "OSClub is an open-source community hub: browse projects, meet people, join events. Home: osclub.org.",
   metadataBase: new URL("https://osclub.org"),
 };
 
@@ -34,7 +34,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="flex min-h-full flex-col font-sans">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
