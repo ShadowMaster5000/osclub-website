@@ -3,12 +3,12 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="mt-auto border-t border-card-border">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-        <div className="flex items-center gap-2">
-          <span className="flex h-5 w-5 items-center justify-center rounded border border-card-border bg-card font-mono text-[9px] font-bold text-accent">
+      <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="flex items-center gap-1.5">
+          <span className="flex h-4 w-4 items-center justify-center rounded-sm border border-card-border bg-card font-mono text-[8px] font-bold text-accent">
             OS
           </span>
-          <p className="text-xs text-muted">
+          <p className="text-[11px] text-muted">
             <span className="font-semibold text-foreground">OSClub</span>
             {" · "}
             Open Source Club ·{" "}
@@ -22,7 +22,7 @@ export default function Footer() {
             </a>
           </p>
         </div>
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
+        <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-muted">
           <Link href="/projects" className="hover:text-foreground">
             Projects
           </Link>
