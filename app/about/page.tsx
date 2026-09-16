@@ -8,15 +8,15 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
-      <div className="border-b border-card-border pb-4">
-        <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">
-          About OSClub
-        </h1>
-        <p className="mt-1 text-sm text-muted">Open Source Club · osclub.org</p>
+    <div className="mx-auto max-w-3xl px-4 py-5 sm:px-6 sm:py-6">
+      <div className="border-b border-card-border pb-3">
+        <h1 className="text-xl font-semibold tracking-tight">About OSClub</h1>
+        <p className="mt-1 text-[13px] text-muted">
+          Open Source Club · osclub.org
+        </p>
       </div>
 
-      <div className="mt-5 space-y-4 text-sm leading-relaxed text-muted">
+      <div className="mt-4 space-y-3 text-[13px] leading-relaxed text-muted">
         <p>
           <strong className="text-foreground">OSClub</strong> is a community
           organization for people who build, maintain, and learn open-source
@@ -39,24 +39,24 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="mt-6 overflow-hidden rounded-md border border-card-border divide-y divide-card-border">
-        <div className="px-4 py-3">
+      <div className="mt-5 divide-y divide-card-border overflow-hidden rounded-md border border-card-border">
+        <div className="px-3 py-2.5 sm:px-4">
           <h2 className="text-sm font-semibold text-foreground">Mission</h2>
-          <p className="mt-1 text-sm text-muted">
+          <p className="mt-1 text-[13px] text-muted">
             Lower the barrier to open-source contribution and help people ship
             meaningful work in public.
           </p>
         </div>
-        <div className="px-4 py-3">
+        <div className="px-3 py-2.5 sm:px-4">
           <h2 className="text-sm font-semibold text-foreground">How we run</h2>
-          <p className="mt-1 text-sm text-muted">
+          <p className="mt-1 text-[13px] text-muted">
             Async-first discussions, shared repos, mentorship, and occasional
             events. Beginners welcome.
           </p>
         </div>
       </div>
 
-      <div className="mt-6 flex gap-2">
+      <div className="mt-5 flex gap-2">
         <Link
           href="/join"
           className="inline-flex h-8 items-center rounded-md bg-accent px-3 text-sm font-semibold text-[#0d1117] hover:bg-accent-hover"

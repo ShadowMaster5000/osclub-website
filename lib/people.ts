@@ -16,13 +16,19 @@ export const people: Person[] = [
     name: "Maintainer seat",
     handle: "maintainer",
     role: "Maintainer",
-    bio: "Placeholder — claim a project, triage issues, and ship releases.",
+    bio: "Claim a project, triage issues, and ship releases.",
   },
   {
     name: "Mentor seat",
     handle: "mentor",
     role: "Mentor",
     bio: "Help newcomers find good first issues and land their first PR.",
+  },
+  {
+    name: "Docs lead",
+    handle: "docs",
+    role: "Maintainer",
+    bio: "Owns docs-starter and onboarding guides. Placeholder seat.",
   },
   {
     name: "Contributor seat",

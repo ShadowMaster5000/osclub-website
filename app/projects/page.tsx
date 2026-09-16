@@ -11,28 +11,25 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
-      <div className="border-b border-card-border pb-4">
+    <div className="mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-6">
+      <div className="border-b border-card-border pb-3">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">
-            Projects
-          </h1>
+          <h1 className="text-xl font-semibold tracking-tight">Projects</h1>
           <span className="text-sm text-muted">
             {projects.length} repositories
           </span>
         </div>
-        <p className="mt-1.5 max-w-2xl text-sm text-muted">
-          Club open-source work as a dense directory — language, tags, and
-          placeholder stars. Wire real GitHub stats later. Want to add one?{" "}
+        <p className="mt-1 max-w-2xl text-[13px] text-muted">
+          Dense directory of club open-source work. Filter by language, tag, or
+          status. Stars are placeholders until wired to GitHub.{" "}
           <Link href="/join" className="text-accent hover:underline">
-            Join and propose it
+            Want to add one?
           </Link>
-          .
         </p>
       </div>
       <div className="mt-4">
         <Suspense fallback={<p className="text-sm text-muted">Loading…</p>}>
-          <ProjectDirectory />
+          <ProjectDirectory showSidebar />
         </Suspense>
       </div>
     </div>

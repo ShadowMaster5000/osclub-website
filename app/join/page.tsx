@@ -43,39 +43,37 @@ const steps = [
 
 export default function JoinPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
-      <div className="border-b border-card-border pb-4">
-        <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">
-          Join OSClub
-        </h1>
-        <p className="mt-1.5 text-sm leading-relaxed text-muted">
+    <div className="mx-auto max-w-3xl px-4 py-5 sm:px-6 sm:py-6">
+      <div className="border-b border-card-border pb-3">
+        <h1 className="text-xl font-semibold tracking-tight">Join OSClub</h1>
+        <p className="mt-1 text-[13px] leading-relaxed text-muted">
           You do not need to be an expert. Follow the steps below. Discord /
           GitHub invite URLs are placeholders until the org is wired up.
         </p>
       </div>
 
-      <ol className="mt-4 overflow-hidden rounded-md border border-card-border bg-card divide-y divide-card-border">
+      <ol className="mt-4 divide-y divide-card-border overflow-hidden rounded-md border border-card-border bg-card">
         {steps.map((step) => (
-          <li key={step.n} className="flex gap-3 px-4 py-3 sm:gap-4">
+          <li key={step.n} className="flex gap-3 px-3 py-2.5 sm:gap-4 sm:px-4">
             <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-card-border bg-background font-mono text-[11px] font-bold text-accent">
               {step.n}
             </span>
             <div className="min-w-0">
               <h2 className="text-sm font-semibold">{step.title}</h2>
-              <p className="mt-1 text-sm text-muted">{step.body}</p>
+              <p className="mt-1 text-[13px] text-muted">{step.body}</p>
               {step.external ? (
                 <a
                   href={step.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-1.5 inline-block text-sm text-accent hover:underline"
+                  className="mt-1.5 inline-block text-[13px] text-accent hover:underline"
                 >
                   {step.cta} →
                 </a>
               ) : (
                 <Link
                   href={step.href}
-                  className="mt-1.5 inline-block text-sm text-accent hover:underline"
+                  className="mt-1.5 inline-block text-[13px] text-accent hover:underline"
                 >
                   {step.cta} →
                 </Link>
@@ -85,11 +83,11 @@ export default function JoinPage() {
         ))}
       </ol>
 
-      <div className="mt-6 rounded-md border border-card-border px-4 py-3">
-        <h2 className="text-xs font-semibold uppercase tracking-wide text-muted">
+      <div className="mt-5 rounded-md border border-card-border px-3 py-2.5 sm:px-4">
+        <h2 className="text-[11px] font-semibold uppercase tracking-wide text-muted">
           Domain
         </h2>
-        <p className="mt-1.5 text-sm text-muted">
+        <p className="mt-1.5 text-[13px] text-muted">
           Production site:{" "}
           <a
             href="https://osclub.org"
@@ -99,7 +97,7 @@ export default function JoinPage() {
           >
             https://osclub.org
           </a>
-          . This app is the local development scaffold before GitHub + Vercel.
+          . Deploy later via GitHub + Vercel.
         </p>
       </div>
     </div>

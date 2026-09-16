@@ -2,16 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProject, projects } from "@/lib/projects";
+import { langDot, statusLabel } from "@/lib/ui";
+import { ForkIcon, IssueIcon, StarIcon } from "@/components/icons";
 
 type Props = { params: Promise<{ slug: string }> };
-
-const langDot: Record<string, string> = {
-  TypeScript: "bg-[#3178c6]",
-  JavaScript: "bg-[#f1e05a]",
-  Python: "bg-[#3572A5]",
-  CSS: "bg-[#563d7c]",
-  Markdown: "bg-[#083fa1]",
-};
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -33,63 +27,89 @@ export default async function ProjectDetailPage({ params }: Props) {
   if (!project) notFound();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
+    <div className="mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-6">
+      {/* Repo-style header */}
       <div className="flex flex-wrap items-center gap-2 text-sm text-muted">
         <Link href="/projects" className="hover:text-accent">
           Projects
         </Link>
         <span className="text-muted-2">/</span>
         <span className="font-semibold text-foreground">{project.name}</span>
-        <span className="rounded-full border border-card-border px-1.5 py-px text-[11px] capitalize text-muted">
-          {project.status}
+        <span className="rounded border border-card-border px-1.5 py-px text-[11px] text-muted">
+          {statusLabel[project.status]}
         </span>
-        <span className="rounded-full border border-card-border px-1.5 py-px text-[11px] text-muted">
+        <span className="rounded border border-card-border px-1.5 py-px text-[11px] text-muted">
           Public
         </span>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-start justify-between gap-3 border-b border-card-border pb-4">
-        <div>
-          <h1 className="font-mono text-xl font-semibold tracking-tight sm:text-2xl">
+      <div className="mt-2 flex flex-wrap items-start justify-between gap-3 border-b border-card-border pb-3">
+        <div className="min-w-0">
+          <h1 className="font-mono text-xl font-semibold tracking-tight">
             <span className="text-muted">osclub/</span>
             <span className="text-accent">{project.name}</span>
           </h1>
-          <p className="mt-1.5 max-w-2xl text-sm text-muted">
+          <p className="mt-1 max-w-2xl text-[13px] text-muted">
             {project.description}
           </p>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {project.tags.map((t) => (
+              <span
+                key={t}
+                className="rounded-sm border border-accent/30 bg-accent-soft px-1.5 py-0.5 text-[11px] text-accent"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <span className="inline-flex h-8 items-center gap-1.5 rounded-md border border-card-border bg-card px-2.5 text-xs text-muted">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
-              <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z" />
-            </svg>
-            Star <strong className="text-foreground">{project.stars}</strong>
+        <div className="flex flex-wrap gap-1.5">
+          <span className="inline-flex h-7 items-center gap-1.5 rounded-md border border-card-border bg-card px-2 text-xs text-muted">
+            <StarIcon size={14} />
+            Star{" "}
+            <strong className="font-semibold text-foreground">
+              {project.stars}
+            </strong>
           </span>
-          <span className="inline-flex h-8 items-center gap-1.5 rounded-md border border-card-border bg-card px-2.5 text-xs text-muted">
-            Fork <strong className="text-foreground">{project.forks}</strong>
+          <span className="inline-flex h-7 items-center gap-1.5 rounded-md border border-card-border bg-card px-2 text-xs text-muted">
+            <ForkIcon size={14} />
+            Fork{" "}
+            <strong className="font-semibold text-foreground">
+              {project.forks}
+            </strong>
+          </span>
+          <span className="inline-flex h-7 items-center gap-1.5 rounded-md border border-card-border bg-card px-2 text-xs text-muted">
+            <IssueIcon size={14} />
+            Issues{" "}
+            <strong className="font-semibold text-foreground">
+              {project.issues}
+            </strong>
           </span>
         </div>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_260px]">
+      {/* Tab strip like GH */}
+      <div className="mt-0 flex gap-0 border-b border-card-border text-sm">
+        <span className="relative -mb-px border-b-2 border-accent px-3 py-2 font-semibold text-foreground">
+          Overview
+        </span>
+        <span className="px-3 py-2 text-muted">README</span>
+        <span className="px-3 py-2 text-muted">
+          Issues{" "}
+          <span className="ml-1 rounded-full bg-card px-1.5 text-[11px] text-muted-2">
+            {project.issues}
+          </span>
+        </span>
+      </div>
+
+      <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1fr)_260px]">
         <section className="overflow-hidden rounded-md border border-card-border">
           <div className="flex items-center justify-between border-b border-card-border bg-card px-4 py-2">
-            <h2 className="text-sm font-semibold">README</h2>
-            <span className="font-mono text-[11px] text-muted">md</span>
+            <h2 className="text-sm font-semibold">README.md</h2>
+            <span className="font-mono text-[11px] text-muted">markdown</span>
           </div>
-          <div className="space-y-3 px-4 py-4 text-sm leading-relaxed text-muted">
+          <div className="space-y-3 px-4 py-4 text-[13px] leading-relaxed text-muted">
             <p className="text-foreground">{project.readme}</p>
-            <p>
-              Tags:{" "}
-              {project.tags.map((t) => (
-                <span
-                  key={t}
-                  className="mr-1.5 inline-block rounded-sm border border-card-border bg-background px-1.5 py-px font-mono text-[11px]"
-                >
-                  {t}
-                </span>
-              ))}
-            </p>
             <div className="flex flex-wrap gap-2 border-t border-card-border pt-4">
               {project.repoUrl ? (
                 <a
@@ -115,11 +135,11 @@ export default async function ProjectDetailPage({ params }: Props) {
           </div>
         </section>
 
-        <aside className="space-y-4">
+        <aside className="space-y-4 text-[13px]">
           <div>
             <h2 className="text-sm font-semibold">About</h2>
-            <p className="mt-2 text-sm text-muted">{project.description}</p>
-            <dl className="mt-3 space-y-2 text-sm">
+            <p className="mt-2 text-muted">{project.description}</p>
+            <dl className="mt-3 space-y-2">
               <div className="flex items-center justify-between gap-2">
                 <dt className="text-muted">Language</dt>
                 <dd className="inline-flex items-center gap-1.5 font-medium">
@@ -142,21 +162,15 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <dt className="text-muted">Stars</dt>
                 <dd className="font-medium">{project.stars}</dd>
               </div>
+              <div className="flex items-center justify-between gap-2">
+                <dt className="text-muted">Forks</dt>
+                <dd className="font-medium">{project.forks}</dd>
+              </div>
             </dl>
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              {project.tags.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-sm border border-accent/30 bg-accent-soft px-1.5 py-0.5 text-[11px] text-accent"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
           </div>
-          <div className="border-t border-card-border pt-4">
+          <div className="border-t border-card-border pt-3">
             <h2 className="text-sm font-semibold">Links</h2>
-            <ul className="mt-2 space-y-1.5 text-sm">
+            <ul className="mt-2 space-y-1.5">
               {project.repoUrl && (
                 <li>
                   <a
@@ -184,6 +198,11 @@ export default async function ProjectDetailPage({ params }: Props) {
               <li>
                 <Link href="/join" className="text-accent hover:underline">
                   Contribute guide
+                </Link>
+              </li>
+              <li>
+                <Link href="/projects" className="text-accent hover:underline">
+                  All projects
                 </Link>
               </li>
             </ul>

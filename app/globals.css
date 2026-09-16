@@ -55,7 +55,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Dense inputs/selects feel more product-like */
 input,
 select,
 textarea,
@@ -65,4 +64,10 @@ button {
 
 a {
   text-underline-offset: 2px;
+}
+
+/* Prefer rectangular controls — avoid pill CTAs */
+button,
+a[class*="rounded-md"] {
+  border-radius: 6px;
 }

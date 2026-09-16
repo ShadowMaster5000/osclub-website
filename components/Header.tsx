@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { MenuIcon, SearchIcon } from "./icons";
 
 const nav = [
   { href: "/", label: "Explore" },
@@ -18,6 +19,24 @@ export default function Header() {
   const router = useRouter();
   const [q, setQ] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (
+        e.key === "/" &&
+        tag !== "INPUT" &&
+        tag !== "TEXTAREA" &&
+        !(e.target as HTMLElement)?.isContentEditable
+      ) {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   function onSearch(e: FormEvent) {
     e.preventDefault();
@@ -27,7 +46,7 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-card-border bg-background">
+    <header className="sticky top-0 z-50 border-b border-card-border bg-background/95 backdrop-blur-sm">
       <div className="mx-auto flex h-12 max-w-6xl items-center gap-3 px-4 sm:px-6">
         <Link href="/" className="flex shrink-0 items-center gap-2">
           <span className="flex h-6 w-6 items-center justify-center rounded border border-card-border bg-card font-mono text-[10px] font-bold text-accent">
@@ -40,13 +59,12 @@ export default function Header() {
           <label className="sr-only" htmlFor="global-search">
             Search projects
           </label>
-          <div className="relative max-w-sm">
+          <div className="relative max-w-md">
             <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-muted-2">
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
-                <path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z" />
-              </svg>
+              <SearchIcon size={14} />
             </span>
             <input
+              ref={inputRef}
               id="global-search"
               value={q}
               onChange={(e) => setQ(e.target.value)}
@@ -59,7 +77,7 @@ export default function Header() {
           </div>
         </form>
 
-        <nav className="ml-auto hidden items-stretch gap-0 lg:flex">
+        <nav className="ml-auto hidden items-stretch gap-0 lg:flex" aria-label="Primary">
           {nav.map((item) => {
             const active =
               item.href === "/"
@@ -77,7 +95,7 @@ export default function Header() {
               >
                 {item.label}
                 {active && (
-                  <span className="absolute inset-x-2 -bottom-px h-0.5 rounded-t bg-accent" />
+                  <span className="absolute inset-x-2 -bottom-px h-0.5 bg-accent" />
                 )}
               </Link>
             );
@@ -98,13 +116,7 @@ export default function Header() {
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((o) => !o)}
         >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
-            {menuOpen ? (
-              <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z" />
-            ) : (
-              <path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12a.75.75 0 0 0 0 1.5h12.5a.75.75 0 0 0 0-1.5H1.75Z" />
-            )}
-          </svg>
+          <MenuIcon open={menuOpen} />
         </button>
       </div>
 
@@ -118,7 +130,7 @@ export default function Header() {
               className="h-8 w-full rounded-md border border-card-border bg-background px-3 text-sm placeholder:text-muted-2 focus:border-accent focus:outline-none"
             />
           </form>
-          <nav className="flex flex-col gap-0.5">
+          <nav className="flex flex-col gap-0.5" aria-label="Mobile">
             {nav.map((item) => {
               const active =
                 item.href === "/"
