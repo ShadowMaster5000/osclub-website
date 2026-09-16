@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { MenuIcon, SearchIcon } from "./icons";
+import Logo from "./Logo";
 
 const nav = [
   { href: "/", label: "Explore" },
@@ -53,26 +54,25 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-card-border bg-background">
-      <div className="mx-auto flex h-11 max-w-6xl items-center gap-2 px-4 sm:px-6">
-        <Link href="/" className="flex shrink-0 items-center gap-1.5">
-          <span className="flex h-5 w-5 items-center justify-center rounded-sm border border-card-border bg-card font-mono text-[9px] font-bold text-accent">
-            OS
-          </span>
-          <span className="text-[13px] font-semibold tracking-tight">
-            OSClub
-          </span>
+    <header className="sticky top-0 z-50 border-b border-card-border bg-card/95 backdrop-blur-[6px]">
+      <div className="mx-auto flex h-12 max-w-6xl items-center gap-2.5 px-4 sm:px-6">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center rounded-md focus-visible:outline-none"
+          aria-label="OSClub home"
+        >
+          <Logo size={22} />
         </Link>
 
         <form
           onSubmit={onSearch}
-          className="ml-2 hidden min-w-0 flex-1 md:block"
+          className="ml-1 hidden min-w-0 flex-1 md:block"
         >
           <label className="sr-only" htmlFor="global-search">
             Search projects
           </label>
-          <div className="relative max-w-sm">
-            <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-muted-2">
+          <div className="relative max-w-md">
+            <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-2">
               <SearchIcon size={13} />
             </span>
             <input
@@ -81,9 +81,9 @@ export default function Header() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search projects…"
-              className="h-6 w-full rounded-md border border-card-border bg-card py-0 pl-7 pr-7 text-xs text-foreground placeholder:text-muted-2 focus:border-accent focus:outline-none"
+              className="h-8 w-full rounded-full border border-transparent bg-tag-bg py-0 pl-8 pr-9 text-[13px] text-foreground placeholder:text-muted-2 transition-colors hover:bg-[#ebe8e2] focus:border-card-border focus:bg-card focus:outline-none focus:ring-2 focus:ring-accent/25"
             />
-            <kbd className="pointer-events-none absolute right-1.5 top-1/2 hidden -translate-y-1/2 rounded border border-card-border px-1 font-mono text-[9px] text-muted-2 sm:inline">
+            <kbd className="pointer-events-none absolute right-2.5 top-1/2 hidden -translate-y-1/2 rounded border border-card-border bg-card px-1 font-mono text-[9px] text-muted-2 sm:inline">
               /
             </kbd>
           </div>
@@ -102,7 +102,7 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative flex h-11 items-center px-2 text-[13px] transition-colors ${
+                className={`relative flex h-12 items-center px-2.5 text-[13px] transition-colors duration-150 ${
                   active
                     ? "font-semibold text-foreground"
                     : "text-muted hover:text-foreground"
@@ -110,7 +110,7 @@ export default function Header() {
               >
                 {item.label}
                 {active && (
-                  <span className="absolute inset-x-1.5 -bottom-px h-0.5 bg-accent" />
+                  <span className="absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-accent" />
                 )}
               </Link>
             );
@@ -119,7 +119,7 @@ export default function Header() {
 
         <button
           type="button"
-          className="ml-auto inline-flex h-6 w-6 items-center justify-center rounded-md border border-card-border text-muted hover:text-foreground lg:hidden"
+          className="ml-auto inline-flex h-7 w-7 items-center justify-center rounded-md border border-card-border bg-card text-muted transition-colors hover:text-foreground lg:hidden"
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((o) => !o)}
@@ -129,13 +129,13 @@ export default function Header() {
       </div>
 
       {menuOpen && (
-        <div className="border-t border-card-border bg-card px-4 py-2.5 lg:hidden">
-          <form onSubmit={onSearch} className="mb-2 md:hidden">
+        <div className="border-t border-card-border bg-card px-4 py-3 lg:hidden">
+          <form onSubmit={onSearch} className="mb-2.5 md:hidden">
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search projects…"
-              className="h-7 w-full rounded-md border border-card-border bg-background px-2.5 text-sm placeholder:text-muted-2 focus:border-accent focus:outline-none"
+              className="h-8 w-full rounded-full border border-transparent bg-tag-bg px-3 text-[13px] placeholder:text-muted-2 focus:border-card-border focus:bg-background focus:outline-none focus:ring-2 focus:ring-accent/25"
             />
           </form>
           <nav className="flex flex-col gap-0.5" aria-label="Mobile">
@@ -149,10 +149,10 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`rounded-md px-2 py-1.5 text-sm ${
+                  className={`rounded-md px-2.5 py-1.5 text-[13px] ${
                     active
                       ? "bg-accent-soft font-medium text-accent"
-                      : "text-muted hover:bg-background hover:text-foreground"
+                      : "text-muted hover:bg-tag-bg hover:text-foreground"
                   }`}
                 >
                   {item.label}

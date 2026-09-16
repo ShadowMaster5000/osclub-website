@@ -1,20 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  /* GitHub-dark inspired palette */
-  --background: #0d1117;
-  --foreground: #e6edf3;
-  --muted: #8b949e;
-  --muted-2: #6e7681;
-  --card: #161b22;
-  --card-hover: #1c2128;
-  --card-border: #30363d;
-  --accent: #4493f8;
-  --accent-hover: #79b8ff;
-  --accent-soft: rgba(56, 139, 253, 0.15);
-  --success: #3fb950;
-  --warning: #d29922;
-  --danger: #f85149;
+  /* OSClub Identity v3 — light-first paper & craft amber */
+  --background: #fafaf8;
+  --foreground: #0f1419;
+  --muted: #5c6570;
+  --muted-2: #8b939e;
+  --card: #ffffff;
+  --card-hover: #f5f3ef;
+  --card-border: #e6e4df;
+  --border-strong: #d4d1ca;
+  --accent: #c45c26;
+  --accent-hover: #a84c1e;
+  --accent-soft: rgba(196, 92, 38, 0.1);
+  --link: #2f6fed;
+  --link-hover: #1a5fd4;
+  --tag-bg: #f3f1ec;
+  --success: #1a7f37;
+  --warning: #9a6700;
+  --danger: #cf222e;
+  --surface-tint: #f5f0e8;
+  --radius: 7px;
 }
 
 @theme inline {
@@ -25,12 +31,17 @@
   --color-card: var(--card);
   --color-card-hover: var(--card-hover);
   --color-card-border: var(--card-border);
+  --color-border-strong: var(--border-strong);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-soft: var(--accent-soft);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+  --color-tag-bg: var(--tag-bg);
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
+  --color-surface-tint: var(--surface-tint);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -46,8 +57,8 @@ body {
 }
 
 ::selection {
-  background: rgba(68, 147, 248, 0.35);
-  color: #fff;
+  background: rgba(196, 92, 38, 0.22);
+  color: var(--foreground);
 }
 
 :focus-visible {
@@ -66,8 +77,19 @@ a {
   text-underline-offset: 2px;
 }
 
-/* Prefer rectangular controls — avoid pill CTAs */
+/* Prefer 6–8px radii — avoid pill CTAs (search pill is the exception) */
 button,
 a[class*="rounded-md"] {
-  border-radius: 6px;
+  border-radius: var(--radius);
+}
+
+/* Subtle paper grain for filter rail only */
+.filter-rail {
+  background-color: var(--surface-tint);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* Quiet hover transition shared */
+.row-hover {
+  transition: background-color 140ms ease, border-color 140ms ease;
 }

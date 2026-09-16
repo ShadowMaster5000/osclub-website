@@ -1,14 +1,16 @@
 import Link from "next/link";
 import type { Project } from "@/lib/projects";
-import { langDot, statusLabel } from "@/lib/ui";
+import { langDot, statusChip, statusLabel } from "@/lib/ui";
 import { ForkIcon, IssueIcon, RepoIcon, StarIcon } from "./icons";
 
-/** Dense GitHub-style repository row — not a marketing card. */
+/** Dense product-hub row — HF warmth, link-blue titles, amber never on names. */
 export default function ProjectRow({ project }: { project: Project }) {
+  const status = statusChip[project.status];
+
   return (
-    <article className="group px-3 py-1.5 transition-colors hover:bg-card-hover sm:px-3.5">
+    <article className="row-hover group px-3 py-2 hover:bg-card-hover sm:px-3.5">
       <div className="flex items-start gap-2">
-        <div className="mt-0.5 shrink-0 text-muted">
+        <div className="mt-0.5 shrink-0 text-muted-2 transition-colors group-hover:text-muted">
           <RepoIcon size={14} />
         </div>
 
@@ -16,12 +18,15 @@ export default function ProjectRow({ project }: { project: Project }) {
           <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
             <Link
               href={`/projects/${project.slug}`}
-              className="text-[13px] font-semibold leading-tight text-accent hover:underline"
+              className="text-[13px] font-semibold leading-tight text-link transition-colors hover:text-link-hover hover:underline"
             >
               <span className="font-normal text-muted">osclub/</span>
               {project.name}
             </Link>
-            <span className="rounded-sm border border-card-border px-1 py-px text-[10px] leading-3 text-muted">
+            <span
+              className={`inline-flex items-center gap-1 rounded-md border bg-card px-1.5 py-px text-[10px] leading-3 ${status.border} ${status.text}`}
+            >
+              <span className={`h-1 w-1 rounded-full ${status.dot}`} aria-hidden />
               {statusLabel[project.status]}
             </span>
             <span className="ml-auto hidden items-center gap-2.5 text-[11px] text-muted sm:inline-flex">
@@ -46,7 +51,7 @@ export default function ProjectRow({ project }: { project: Project }) {
             {project.description}
           </p>
 
-          <div className="mt-0.5 flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[11px] text-muted">
+          <div className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[11px] text-muted">
             <span className="inline-flex items-center gap-1">
               <span
                 className={`h-1.5 w-1.5 rounded-full ${langDot[project.language] ?? "bg-muted"}`}
@@ -66,7 +71,7 @@ export default function ProjectRow({ project }: { project: Project }) {
             {project.tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
-                className="rounded-sm border border-card-border px-1 py-px font-mono text-[10px] text-muted-2"
+                className="rounded-md border border-card-border bg-tag-bg px-1.5 py-px font-mono text-[10px] text-muted"
               >
                 {tag}
               </span>

@@ -4,7 +4,7 @@ Local Next.js (App Router) hub for **OSClub** — Open Source Club.
 
 - Domain: [https://osclub.org](https://osclub.org)
 - Stack: Next.js App Router + TypeScript + Tailwind CSS v4
-- Aesthetic: GitHub + Hugging Face product UI — dense project **list rows** (not marketing cards), HF-style filter chips on `/projects`, 1px borders, GitHub-dark palette (`#0d1117` / `#161b22`), single blue accent (`#4493f8`). Compact hub intro on `/`.
+- **Identity (v3):** light-first warm paper UI (`#fafaf8`), craft amber-copper accent (`#c45c26`) for logo / focus / primary CTAs / active nav, calm link blue (`#2f6fed`) for project titles & text links. Hugging Face–level subtle polish: soft search pill, hairline warm borders (`#e6e4df`), dense project **list rows**, filter chips with tiny language/status hues. Open Ring mark in `public/osclub-mark.png`. No neon, no marketing hero slogans.
 
 ## Run locally
 
@@ -29,7 +29,7 @@ Press `/` on any page to focus the header search (navigates to `/projects?q=…`
 |------|---------|
 | `/` | Explore hub — compact org intro, recent project rows, activity sidebar |
 | `/projects` | Full directory with language/tag/status chips + sort |
-| `/projects/[slug]` | Project detail (README + About sidebar, repo-style header) |
+| `/projects/[slug]` | Project detail (README + About sidebar) |
 | `/people` | Members / roles (seed placeholders) |
 | `/events` | Upcoming & past events |
 | `/about` | Short mission + how we run |

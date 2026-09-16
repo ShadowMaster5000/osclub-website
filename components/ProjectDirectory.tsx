@@ -10,7 +10,7 @@ import {
   type Project,
   type ProjectStatus,
 } from "@/lib/projects";
-import { statusLabel } from "@/lib/ui";
+import { langChipHue, statusChip, statusLabel } from "@/lib/ui";
 import ProjectRow from "./ProjectRow";
 import { SearchIcon } from "./icons";
 
@@ -48,21 +48,26 @@ function Chip({
   active,
   onClick,
   children,
+  hue,
 }: {
   active: boolean;
   onClick: () => void;
   children: React.ReactNode;
+  hue?: string;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex h-5 items-center rounded-sm border px-1.5 text-[11px] transition-colors ${
+      className={`inline-flex h-6 items-center gap-1.5 rounded-md border px-2 text-[11px] transition-colors duration-150 ${
         active
-          ? "border-accent/40 bg-accent-soft font-medium text-accent"
-          : "border-card-border bg-background text-muted hover:border-muted hover:text-foreground"
+          ? "border-accent/35 bg-accent-soft font-medium text-accent"
+          : "border-card-border bg-card text-muted hover:border-border-strong hover:text-foreground"
       }`}
     >
+      {hue && (
+        <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${hue}`} aria-hidden />
+      )}
       {children}
     </button>
   );
@@ -99,19 +104,18 @@ export default function ProjectDirectory({
   const list = compact ? filtered.slice(0, 6) : filtered;
   const hasFilters = Boolean(q || lang || tag || status);
 
-  /* Compact hub: list only — filters live on /projects */
   if (compact) {
     const recent = sortProjects(projects, "updated").slice(0, 6);
     return (
       <div>
-        <div className="divide-y divide-card-border overflow-hidden rounded-md border border-card-border bg-card">
+        <div className="divide-y divide-card-border overflow-hidden rounded-lg border border-card-border bg-card shadow-[0_1px_0_rgba(15,20,25,0.02)]">
           {recent.map((p) => (
             <ProjectRow key={p.slug} project={p} />
           ))}
         </div>
-        <p className="mt-2 text-[12px] text-muted">
+        <p className="mt-2.5 text-[12px] text-muted">
           Showing {recent.length} of {projects.length}.{" "}
-          <Link href="/projects" className="text-accent hover:underline">
+          <Link href="/projects" className="text-link hover:underline">
             Open full directory with filters →
           </Link>
         </p>
@@ -120,17 +124,18 @@ export default function ProjectDirectory({
   }
 
   const filters = (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <div>
-        <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-muted">
+        <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-muted">
           Status
         </p>
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1.5">
           {statuses.map((s) => (
             <Chip
               key={s}
               active={status === s}
               onClick={() => setStatus(status === s ? "" : s)}
+              hue={statusChip[s].dot}
             >
               {statusLabel[s]}
             </Chip>
@@ -138,15 +143,16 @@ export default function ProjectDirectory({
         </div>
       </div>
       <div>
-        <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-muted">
+        <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-muted">
           Language
         </p>
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1.5">
           {languages.map((l) => (
             <Chip
               key={l}
               active={lang === l}
               onClick={() => setLang(lang === l ? "" : l)}
+              hue={langChipHue[l] ?? "bg-muted"}
             >
               {l}
             </Chip>
@@ -154,10 +160,10 @@ export default function ProjectDirectory({
         </div>
       </div>
       <div>
-        <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-muted">
+        <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-muted">
           Tags
         </p>
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1.5">
           {allTags.map((t) => (
             <Chip
               key={t}
@@ -187,12 +193,12 @@ export default function ProjectDirectory({
   );
 
   const toolbar = (
-    <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center">
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
       <label className="sr-only" htmlFor="project-filter">
         Filter projects
       </label>
       <div className="relative min-w-0 flex-1">
-        <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-muted-2">
+        <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-2">
           <SearchIcon size={12} />
         </span>
         <input
@@ -200,7 +206,7 @@ export default function ProjectDirectory({
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Filter by name, description, or tag…"
-          className="h-7 w-full rounded-md border border-card-border bg-background py-0 pl-7 pr-2 text-[13px] placeholder:text-muted-2 focus:border-accent focus:outline-none"
+          className="h-8 w-full rounded-full border border-transparent bg-tag-bg py-0 pl-8 pr-3 text-[13px] placeholder:text-muted-2 transition-colors hover:bg-[#ebe8e2] focus:border-card-border focus:bg-card focus:outline-none focus:ring-2 focus:ring-accent/25"
         />
       </div>
       <div className="flex flex-wrap gap-1.5">
@@ -209,7 +215,7 @@ export default function ProjectDirectory({
             <select
               value={lang}
               onChange={(e) => setLang(e.target.value)}
-              className="h-7 rounded-md border border-card-border bg-background px-1.5 text-[13px] text-foreground focus:border-accent focus:outline-none"
+              className="h-8 rounded-md border border-card-border bg-card px-2 text-[13px] text-foreground focus:border-accent focus:outline-none"
               aria-label="Language"
             >
               <option value="">Language</option>
@@ -222,7 +228,7 @@ export default function ProjectDirectory({
             <select
               value={tag}
               onChange={(e) => setTag(e.target.value)}
-              className="h-7 rounded-md border border-card-border bg-background px-1.5 text-[13px] text-foreground focus:border-accent focus:outline-none"
+              className="h-8 rounded-md border border-card-border bg-card px-2 text-[13px] text-foreground focus:border-accent focus:outline-none"
               aria-label="Tag"
             >
               <option value="">Tag</option>
@@ -237,7 +243,7 @@ export default function ProjectDirectory({
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value as SortKey)}
-          className="h-7 rounded-md border border-card-border bg-background px-1.5 text-[13px] text-foreground focus:border-accent focus:outline-none"
+          className="h-8 rounded-md border border-card-border bg-card px-2 text-[13px] text-foreground focus:border-accent focus:outline-none"
           aria-label="Sort"
         >
           <option value="updated">Sort: Updated</option>
@@ -250,7 +256,7 @@ export default function ProjectDirectory({
 
   const results = (
     <>
-      <div className="mt-2 flex items-center justify-between text-[11px] text-muted">
+      <div className="mt-2.5 flex items-center justify-between text-[11px] text-muted">
         <p>
           <span className="font-semibold text-foreground">{list.length}</span>{" "}
           project{list.length === 1 ? "" : "s"}
@@ -266,18 +272,18 @@ export default function ProjectDirectory({
       </div>
 
       {list.length === 0 ? (
-        <div className="mt-2 rounded-md border border-dashed border-card-border px-4 py-8 text-center">
+        <div className="mt-2 rounded-lg border border-dashed border-border-strong bg-card px-4 py-10 text-center">
           <p className="text-sm font-medium text-foreground">No projects match</p>
           <p className="mt-1.5 text-[13px] text-muted">
             Clear filters, or{" "}
-            <a href="/join" className="text-accent hover:underline">
+            <a href="/join" className="text-link hover:underline">
               propose a new project
             </a>{" "}
             when you join the club.
           </p>
         </div>
       ) : (
-        <div className="mt-1.5 divide-y divide-card-border overflow-hidden rounded-md border border-card-border bg-card">
+        <div className="mt-2 divide-y divide-card-border overflow-hidden rounded-lg border border-card-border bg-card shadow-[0_1px_0_rgba(15,20,25,0.02)]">
           {list.map((p) => (
             <ProjectRow key={p.slug} project={p} />
           ))}
@@ -288,14 +294,14 @@ export default function ProjectDirectory({
 
   if (showSidebar) {
     return (
-      <div className="grid gap-5 lg:grid-cols-[180px_minmax(0,1fr)]">
+      <div className="grid gap-5 lg:grid-cols-[200px_minmax(0,1fr)]">
         <aside className="hidden lg:block">
-          <div className="sticky top-14 rounded-md border border-card-border bg-card p-2.5">
+          <div className="filter-rail sticky top-16 rounded-lg border border-card-border p-3">
             {filters}
           </div>
         </aside>
         <div>
-          <div className="mb-2 rounded-md border border-card-border bg-card p-2.5 lg:hidden">
+          <div className="filter-rail mb-3 rounded-lg border border-card-border p-3 lg:hidden">
             {filters}
           </div>
           {toolbar}

@@ -9,29 +9,29 @@ export const metadata: Metadata = {
 
 export default function PeoplePage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-4 sm:px-6 sm:py-5">
-      <div className="border-b border-card-border pb-2.5">
+    <div className="mx-auto max-w-3xl px-4 py-5 sm:px-6 sm:py-6">
+      <div className="border-b border-card-border pb-3">
         <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
-          <h1 className="text-lg font-semibold tracking-tight">People</h1>
+          <h1 className="text-xl font-semibold tracking-tight">People</h1>
           <span className="text-[13px] text-muted">{people.length} members</span>
         </div>
-        <p className="mt-0.5 max-w-2xl text-[13px] text-muted">
+        <p className="mt-1 max-w-2xl text-[13px] text-muted">
           Organizers, maintainers, and contributors. Placeholder seats until
           members claim them.{" "}
-          <Link href="/join" className="text-accent hover:underline">
+          <Link href="/join" className="text-link hover:underline">
             Join OSClub
           </Link>
         </p>
       </div>
 
-      <div className="mt-3 overflow-hidden rounded-md border border-card-border bg-card">
+      <div className="mt-4 overflow-hidden rounded-lg border border-card-border bg-card">
         <ul className="divide-y divide-card-border">
           {people.map((p) => (
             <li
               key={p.handle}
-              className="flex items-start gap-2.5 px-3 py-2 hover:bg-card-hover sm:px-3.5"
+              className="row-hover flex items-start gap-3 px-3.5 py-2.5 hover:bg-card-hover"
             >
-              <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-card-border bg-background font-mono text-[10px] text-muted">
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-card-border bg-tag-bg font-mono text-[10px] text-muted">
                 {p.name.slice(0, 2).toUpperCase()}
               </span>
               <div className="min-w-0 flex-1">
@@ -40,7 +40,7 @@ export default function PeoplePage() {
                     {p.name}
                   </p>
                   <p className="font-mono text-[11px] text-muted">@{p.handle}</p>
-                  <span className="rounded-sm border border-card-border px-1 py-px text-[10px] text-muted">
+                  <span className="rounded-md border border-card-border bg-card px-1.5 py-px text-[10px] text-muted">
                     {p.role}
                   </span>
                 </div>

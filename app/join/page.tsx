@@ -43,19 +43,22 @@ const steps = [
 
 export default function JoinPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-4 sm:px-6 sm:py-5">
-      <div className="border-b border-card-border pb-2.5">
-        <h1 className="text-lg font-semibold tracking-tight">Join OSClub</h1>
-        <p className="mt-0.5 text-[13px] leading-snug text-muted">
+    <div className="mx-auto max-w-3xl px-4 py-5 sm:px-6 sm:py-6">
+      <div className="border-b border-card-border pb-3">
+        <h1 className="text-xl font-semibold tracking-tight">Join OSClub</h1>
+        <p className="mt-1 text-[13px] leading-snug text-muted">
           You do not need to be an expert. Follow the steps below. Discord /
           GitHub invite URLs are placeholders until the org is wired up.
         </p>
       </div>
 
-      <ol className="mt-3 divide-y divide-card-border overflow-hidden rounded-md border border-card-border bg-card">
+      <ol className="mt-4 divide-y divide-card-border overflow-hidden rounded-lg border border-card-border bg-card">
         {steps.map((step) => (
-          <li key={step.n} className="flex gap-2.5 px-3 py-2 sm:gap-3 sm:px-3.5">
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-sm border border-card-border bg-background font-mono text-[10px] font-bold text-accent">
+          <li
+            key={step.n}
+            className="flex gap-3 px-3.5 py-3 sm:gap-3.5"
+          >
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-accent-soft font-mono text-[11px] font-bold text-accent">
               {step.n}
             </span>
             <div className="min-w-0">
@@ -66,14 +69,14 @@ export default function JoinPage() {
                   href={step.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-1 inline-block text-[12px] text-accent hover:underline"
+                  className="mt-1.5 inline-block text-[12px] text-link hover:underline"
                 >
                   {step.cta} →
                 </a>
               ) : (
                 <Link
                   href={step.href}
-                  className="mt-1 inline-block text-[12px] text-accent hover:underline"
+                  className="mt-1.5 inline-block text-[12px] text-link hover:underline"
                 >
                   {step.cta} →
                 </Link>
@@ -83,7 +86,7 @@ export default function JoinPage() {
         ))}
       </ol>
 
-      <div className="mt-4 rounded-md border border-card-border px-3 py-2 sm:px-3.5">
+      <div className="mt-5 rounded-lg border border-card-border bg-card px-3.5 py-3">
         <h2 className="text-[10px] font-semibold uppercase tracking-wide text-muted">
           Domain
         </h2>
@@ -91,7 +94,7 @@ export default function JoinPage() {
           Production site:{" "}
           <a
             href="https://osclub.org"
-            className="font-medium text-accent hover:underline"
+            className="font-medium text-link hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
