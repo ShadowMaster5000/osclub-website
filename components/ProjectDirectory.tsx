@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -76,12 +76,16 @@ export default function ProjectDirectory({
   showSidebar?: boolean;
 }) {
   const searchParams = useSearchParams();
-  const initialQ = searchParams.get("q") ?? "";
-  const [q, setQ] = useState(initialQ);
+  const urlQ = searchParams.get("q") ?? "";
+  const [q, setQ] = useState(urlQ);
   const [lang, setLang] = useState("");
   const [tag, setTag] = useState("");
   const [status, setStatus] = useState("");
   const [sort, setSort] = useState<SortKey>("updated");
+
+  useEffect(() => {
+    setQ(urlQ);
+  }, [urlQ]);
 
   const filtered = useMemo(
     () =>
@@ -95,7 +99,7 @@ export default function ProjectDirectory({
   const list = compact ? filtered.slice(0, 6) : filtered;
   const hasFilters = Boolean(q || lang || tag || status);
 
-  /* Compact hub: list only — no filter chrome (filters live on /projects) */
+  /* Compact hub: list only — filters live on /projects */
   if (compact) {
     const recent = sortProjects(projects, "updated").slice(0, 6);
     return (

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { MenuIcon, SearchIcon } from "./icons";
 
@@ -17,9 +17,16 @@ const nav = [
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
-  const [q, setQ] = useState("");
+  const searchParams = useSearchParams();
+  const [q, setQ] = useState(searchParams.get("q") ?? "");
   const [menuOpen, setMenuOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (pathname.startsWith("/projects")) {
+      setQ(searchParams.get("q") ?? "");
+    }
+  }, [pathname, searchParams]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {

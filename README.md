@@ -39,6 +39,6 @@ Press `/` on any page to focus the header search (navigates to `/projects?q=…`
 
 Projects, people, and events live under `lib/`. Stars/forks/issues are placeholders until wired to GitHub APIs.
 
-## Deploy (later)
+## Deploy (Vercel / osclub.org)
 
-Push to GitHub, connect **Vercel**, attach custom domain **osclub.org**. Do not commit secrets. Owner/parent pushes when ready.
+Connect this repo to **Vercel**, set production domain **osclub.org**. No secrets required for the static hub. Do not commit `.env` secrets. Owner pushes when ready — local commits only in this workspace.

@@ -94,7 +94,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         <span className="px-2.5 py-1.5 text-muted">README</span>
         <span className="px-2.5 py-1.5 text-muted">
           Issues{" "}
-          <span className="ml-0.5 rounded-full bg-card px-1.5 text-[10px] text-muted-2">
+          <span className="ml-0.5 rounded-sm border border-card-border bg-card px-1 text-[10px] text-muted-2">
             {project.issues}
           </span>
         </span>
